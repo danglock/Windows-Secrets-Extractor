@@ -21,7 +21,7 @@ Invoke-WebRequest <URL> -outfile $env:USERPROFILE\extractor.ps1
 cd $env:USERPROFILE;.\extractor.ps1
 ```
 
-Note: the script self-destructs after execution
+Note: the script will auto-destroy after execution
 
 ***
 Be careful, I am not responsible for your use of this script.
