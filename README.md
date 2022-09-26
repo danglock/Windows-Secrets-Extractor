@@ -12,6 +12,8 @@
 1. Download the script : ``Invoke-WebRequest <URL> -outfile $env:USERPROFILE\extractor.ps1``
 2. Run the Script : ``cd $env:USERPROFILE;.\extractor.ps1``
 
+Note: the script self-destructs after execution
+
 ***
 Be careful, I am not responsible for your use of this script.
 Please do not use it against machines whose owner has not given you their consent
