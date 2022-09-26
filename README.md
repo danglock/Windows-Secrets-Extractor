@@ -7,6 +7,7 @@
 
 
 ### Before Usage
+- Create a WebHook
 - Adapt line ``1`` and enter your WebHook URL.
 
 ***
