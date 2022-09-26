@@ -12,7 +12,7 @@
 1. Download the script :
 
 ```
-Invoke-WebRequest <URL> -outfile $env:USERPROFILE\extractor.ps1
+Invoke-WebRequest https://raw.githubusercontent.com/danglock/Windows-Secrets-Extractor/main/extractor.ps1 -outfile $env:USERPROFILE\extractor.ps1
 ```
 
 3. Run the Script :
