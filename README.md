@@ -10,8 +10,14 @@
 
 ### Usage
 1. Download the script :
-```Invoke-WebRequest <URL> -outfile $env:USERPROFILE\extractor.ps1```
-3. Run the Script : ``cd $env:USERPROFILE;.\extractor.ps1``
+
+```
+Invoke-WebRequest <URL> -outfile $env:USERPROFILE\extractor.ps1
+```
+
+3. Run the Script :
+
+```cd $env:USERPROFILE;.\extractor.ps1```
 
 Note: the script self-destructs after execution
 
