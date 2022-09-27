@@ -1,4 +1,4 @@
-$webHookUrl = "WEBHOOK HERE"
+$webHookUrl = "https://discord.com/api/webhooks/873647888645898241/VCtL2QCQmdXnKceEYRQrApF9HNKmn8JLTCYjlYYu33pI5bfKRjb95Y0Cp20B85qatyc6"
 
 function IsInstalled($appName){
     $AppToCheck = '`'+$appName+'*'
