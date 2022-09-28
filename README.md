@@ -8,6 +8,7 @@ Windows Secrets Extractor allows you to get (in clear text) windows "secrets" in
 - FireFox Credentials
 - Computer Location
 
+***
 
 ### Requirements
 - PowerShell **CredentialManager** Module : ``Install-Module -Name CredentialManager``
