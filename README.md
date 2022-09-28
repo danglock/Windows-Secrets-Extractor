@@ -17,7 +17,7 @@ Windows Secrets Extractor allows you to get (in clear text) windows "secrets" in
 
 ### Before Usage
 - Create a Discord WebHook [help](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
-- Adapt line ``1`` and enter your WebHook URL.
+- Adapt line ``8`` and enter your WebHook URL.
 
 ***
 
