@@ -7,6 +7,7 @@
 - Edge Credentials
 - FireFox Credentials
 - Computer Location
+- Discord Token (require python 3)
 
 ***
 
