@@ -11,8 +11,8 @@
 ***
 
 ### Requirements
-- PowerShell **CredentialManager** Module : ``Install-Module -Name CredentialManager``
-- (Optionnal) Python 3.X
+- PowerShell [CredentialManager](https://www.powershellgallery.com/packages/CredentialManager/2.0) Module : ``Install-Module -Name CredentialManager``
+- (Optionnal) Python 3
 
 
 ### Before Usage
