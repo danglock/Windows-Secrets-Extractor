@@ -1,5 +1,13 @@
 # Windows Secrets Extractor
 
+Windows Secrets Extractor allows you to get (in clear text) windows "secrets" informations such as :
+- Windows informations (Os name & version, Username, Domain etc...)
+- Windows Credentials
+- Windows WLAN & Keys
+- Edge Credentials
+- FireFox Credentials
+- Computer Location
+
 
 ### Requirements
 - PowerShell **CredentialManager** Module : ``Install-Module -Name CredentialManager``
