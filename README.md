@@ -11,7 +11,7 @@
 ***
 
 ### Requirements
-- PowerShell [CredentialManager](https://www.powershellgallery.com/packages/CredentialManager/2.0) Module : ``Install-Module -Name CredentialManager``
+- PowerShell [CredentialManager](https://www.powershellgallery.com/packages/CredentialManager/2.0) module.
 > (Optionnal) Python 3, if you want Discord Token Grab
 
 
