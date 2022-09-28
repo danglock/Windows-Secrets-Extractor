@@ -17,7 +17,7 @@
 
 ### Configuration
 - Create a Discord WebHook [help](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
-- Adapt line ``8`` and enter your WebHook URL.
+- Adapt line ``3`` and enter your WebHook URL.
 
 ***
 
